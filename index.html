@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarotally Honest Readings · By Bryce</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Caveat:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap');
+
+  :root {
+    --iron: #15110E;
+    --iron-light: #221A15;
+    --brass: #B8943A;
+    --brass-bright: #D9B65C;
+    --brass-deep: #8C6A1F;
+    --garnet: #102A40;
+    --garnet-bright: #1B4F72;
+    --cream: #F3E7CC;
+    --parchment: #DCCBA0;
+    --noise: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-image: var(--noise), radial-gradient(circle at 50% -10%, #2A2117 0%, #181210 55%, #0D0A08 100%);
+    background-blend-mode: overlay, normal;
+    background-repeat: repeat, no-repeat;
+    background-attachment: fixed, fixed;
+    color: var(--parchment);
+    font-family: 'Nunito Sans', sans-serif;
+    line-height: 1.65;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 100px;
+  }
+
+  /* ---- shared panel look: the etched plate ---- */
+  .panel {
+    background-image: var(--noise), radial-gradient(circle at 50% 25%, #2A2017 0%, transparent 55%), linear-gradient(160deg, #221A15, #100D0B);
+    background-blend-mode: overlay, normal, normal;
+    background-repeat: repeat, no-repeat, no-repeat;
+    border: 2px solid var(--brass);
+    border-radius: 18px;
+    box-shadow: inset 0 2px 28px rgba(0,0,0,0.7), 0 0 36px rgba(184,148,58,0.06);
+    padding: 44px 32px;
+  }
+
+  /* ---- mark ---- */
+  .mark { display: block; margin: 0 auto; filter: drop-shadow(0 0 8px rgba(217,182,92,0.25)); }
+
+  /* ---- hero ---- */
+  .hero {
+    text-align: center;
+    padding: 72px 24px 56px;
+  }
+
+  .hero .mark { width: 176px; height: 99px; margin-bottom: 22px; }
+
+  .eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brass-bright);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .wordmark {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+    font-size: clamp(32px, 7vw, 54px);
+    color: var(--brass-bright);
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    text-shadow: 0 0 22px rgba(217,182,92,0.18);
+  }
+
+  .wordmark .tally { color: var(--cream); }
+
+  .subtitle {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--parchment);
+    opacity: 0.85;
+    margin-top: 10px;
+  }
+
+  .tagline {
+    font-family: 'Caveat', cursive;
+    font-weight: 600;
+    font-size: 28px;
+    color: var(--cream);
+    margin-top: 16px;
+  }
+
+  .hero-line {
+    max-width: 480px;
+    margin: 28px auto 0;
+    color: var(--parchment);
+    opacity: 0.9;
+    font-size: 16px;
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 14px 32px;
+    border: 2px solid var(--brass);
+    border-radius: 999px;
+    color: var(--brass-bright);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .btn:hover { background: var(--brass); color: var(--iron); }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 32px;
+  }
+
+  .btn-row .btn { margin-top: 0; }
+
+  /* ---- sections ---- */
+  section { margin-top: 36px; }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--brass-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(to right, var(--brass), transparent);
+  }
+
+  .panel p { margin-bottom: 16px; }
+  .panel p:last-child { margin-bottom: 0; }
+
+  .panel strong { color: var(--brass-bright); }
+
+  .pull-quote {
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    color: var(--cream);
+    text-align: center;
+    padding: 8px 0 4px;
+    border-top: 1px solid rgba(184,148,58,0.25);
+    border-bottom: 1px solid rgba(184,148,58,0.25);
+    margin: 24px 0;
+  }
+
+  .approach-list {
+    list-style: none;
+  }
+
+  .approach-list li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 16px;
+  }
+
+  .approach-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 8px;
+    height: 8px;
+    background: var(--garnet-bright);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(162,59,69,0.7);
+  }
+
+  .approach-list li:last-child { margin-bottom: 0; }
+
+  /* ---- footer ---- */
+  .footer-panel {
+    text-align: center;
+    margin-top: 56px;
+  }
+
+  .footer-panel .mark { width: 130px; height: 73px; margin-bottom: 18px; }
+
+  .footer-tagline {
+    font-family: 'Caveat', cursive;
+    font-size: 32px;
+    color: var(--cream);
+  }
+
+  .footer-meta {
+    margin-top: 18px;
+    font-size: 14px;
+    color: var(--parchment);
+    opacity: 0.75;
+  }
+
+  .footer-meta .handle {
+    color: var(--brass-bright);
+    font-weight: 700;
+    opacity: 1;
+  }
+
+  .disclaimer {
+    margin-top: 22px;
+    font-size: 11px;
+    color: var(--parchment);
+    opacity: 0.45;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+
+  .pricing-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .price-card {
+    flex: 1;
+    min-width: 240px;
+  }
+
+  .price-card .duration {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brass-bright);
+    font-weight: 700;
+  }
+
+  .price-card .price {
+    font-family: 'Cinzel', serif;
+    font-size: 32px;
+    color: var(--cream);
+    margin: 6px 0 14px;
+  }
+
+  .price-card p {
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+
+  .price-card .book-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border: 2px solid var(--brass);
+    border-radius: 999px;
+    color: var(--brass-bright);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .price-card .book-btn:hover {
+    background: var(--brass);
+    color: var(--iron);
+  }
+
+  @media (max-width: 600px) {
+    .pricing-row { flex-direction: column; }
+  }
+
+  @media (max-width: 600px) {
+    .panel { padding: 32px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <svg class="mark" viewBox="-16 0 196 110">
+      <path d="M 72 38 Q 82 28 92 38" fill="none" stroke="#D9B65C" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 8 50 Q -6 58 -6 74" fill="none" stroke="#D9B65C" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 156 50 Q 170 58 170 74" fill="none" stroke="#D9B65C" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="40" cy="50" r="32" fill="none" stroke="#D9B65C" stroke-width="4"/>
+      <circle cx="124" cy="50" r="32" fill="none" stroke="#D9B65C" stroke-width="4"/>
+      <circle cx="124" cy="50" r="13" fill="#1B4F72"/>
+      <circle cx="124" cy="50" r="5" fill="#15110E"/>
+      <circle cx="128.5" cy="45.5" r="1.6" fill="#F3E7CC"/>
+    </svg>
+    <div class="wordmark"><span class="tally">Tarot</span>ally Honest Readings</div>
+    <div class="subtitle">By Bryce</div>
+    <div class="tagline">"The cards don't lie. Neither do I."</div>
+    <p class="hero-line">Just a tarot deck, your questions, and straight answers from a gay guy.</p>
+    <div class="btn-row">
+      <a href="#about" class="btn">Get to Know Me</a>
+      <a href="#method" class="btn">How I Work</a>
+      <a href="#book" class="btn">Book a Reading</a>
+    </div>
+  </div>
+
+  <section id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="panel">
+      <p>I've spent a long time performing. Not just on stage, but as a version of myself built for other people's comfort. Being a gay man taught me how to read a room before I ever touched a deck of cards, because for years, reading a room was how I protected myself. But as I grew older, I realized this ability was more than survival instinct. The first time I put a deck of cards in my hands, I picked up on information I had no way of knowing otherwise. That's when I learned I'm an intuitive.</p>
+      <p>It's taken me a long time to just be me. Real. A little loud. A little messy. <strong>That's the same honesty I bring to your reading.</strong> I'm not interested in performing for you, so I'll tell you what the cards say, straight up. And since I'm asking for your honesty, here's mine first:</p>
+      <p>I'm a blue-eyed, born and raised Minnesotan with Norwegian heritage (Skol), a Scorpio sun with a Libra moon and rising, donor conceived (thirty-plus half-siblings and counting), dog dad, uncle, brother, and married to my husband since 2017. None of that is the interesting part. The interesting part is what it took to get from performing every day to building a life, and now a practice, where I don't have to anymore.</p>
+      <p style="font-family:'Caveat', cursive; font-size:22px; color:var(--parchment); text-align:center; margin-top:24px; opacity:0.85;">Consider the library open.</p>
+      <p style="font-family:'Caveat', cursive; font-size:26px; color:var(--cream); text-align:right; margin-top:8px;">— Bryce Hackman</p>
+    </div>
+  </section>
+
+  <section id="method">
+    <h2 class="section-title">My Method</h2>
+    <div class="panel">
+      <div class="pull-quote">"The cards tell me what's really going on. I tell you what you need to hear."</div>
+      <p>What happens in one of my readings is honest human energy passing between people. The cards cut through the rest of it: the facades, the stories we tell ourselves, all the embellishment humans love to layer on top of what's real. They read the energy and pick up the truth underneath. I'm the one channeling that and translating it for you.</p>
+      <p>I'm <strong>not</strong> a psychic, and I'm <strong>not</strong> a fortune teller. I'm <strong>not</strong> a medium, and I don't talk to the dead. I'm <strong>not</strong> reading your body language and calling it magic, and I'm <strong>not</strong> promising to predict anything. What I <strong>am</strong> is intuitive and genuinely gifted at picking up on energy. Tarot is just the instrument that brings my gift into focus.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">What You'll Experience</h2>
+    <div class="panel">
+      <ul class="approach-list">
+        <li>No smoke and mirrors. Just you, me, and a deck that cares about the truth.</li>
+        <li>Together, we'll sit with what comes up and unpack what it means for your situation.</li>
+        <li>Expect a conversation, not a monologue. The best readings go back and forth, not one direction.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="book">
+    <h2 class="section-title">Book a Reading</h2>
+    <div class="pricing-row">
+      <div class="panel price-card">
+        <div class="duration">20 Minutes</div>
+        <div class="price">$50</div>
+        <p>Enough time to take one real situation and get underneath it, to reveal what's truly going on, not just discuss what's sitting on the surface.</p>
+        <a href="#" class="book-btn">Book the Quick Read</a>
+      </div>
+      <div class="panel price-card">
+        <div class="duration">45 Minutes</div>
+        <div class="price">$100</div>
+        <p>The same depth, stretched further. Room to work a situation from more than one angle, follow questions wherever they lead, and allow space to probe deeper and explore broader forces at play.</p>
+        <a href="#" class="book-btn">Book the Deep Read</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer-panel">
+    <svg class="mark" viewBox="-16 0 196 110">
+      <path d="M 72 38 Q 82 28 92 38" fill="none" stroke="#D9B65C" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 8 50 Q -6 58 -6 74" fill="none" stroke="#D9B65C" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M 156 50 Q 170 58 170 74" fill="none" stroke="#D9B65C" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="40" cy="50" r="32" fill="none" stroke="#D9B65C" stroke-width="4"/>
+      <circle cx="124" cy="50" r="32" fill="none" stroke="#D9B65C" stroke-width="4"/>
+      <circle cx="124" cy="50" r="13" fill="#1B4F72"/>
+      <circle cx="124" cy="50" r="5" fill="#15110E"/>
+      <circle cx="128.5" cy="45.5" r="1.6" fill="#F3E7CC"/>
+    </svg>
+    <div class="footer-tagline">The cards don't lie. Neither do I.</div>
+    <div class="footer-meta">
+      <span class="handle">@tarotallyhonest</span>
+    </div>
+    <div class="disclaimer">What's said in a reading stays between us. I don't record sessions, and I don't share what comes up. The one exception: if I genuinely believe you or someone else is in danger, or I'm legally required to, I reserve the right to act on that, the same as any responsible person would.</div>
+    <div class="disclaimer">Readings are for guidance and personal insight, offered for entertainment purposes only, and are not a substitute for professional, medical, financial, or legal advice.</div>
+  </div>
+
+</div>
+
+</body>
+</html>
